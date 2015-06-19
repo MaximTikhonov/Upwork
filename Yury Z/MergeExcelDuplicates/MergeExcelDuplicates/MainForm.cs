@@ -60,6 +60,7 @@ namespace MergeExcelDuplicates
                         var existingAccount = accounts.GetEqualAccount(newAccount);
                         if (existingAccount != null)
                         {
+                            existingAccount.Merge(newAccount);
                             newContact.AccountId = existingAccount.ImportId;
                             newProject.Accountid = existingAccount.ImportId;
                         }

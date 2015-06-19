@@ -19,7 +19,9 @@ namespace MergeExcelDuplicates.ProxyObjects
             CountyName,
             PostCode,
             ImportDate,
-            ImportId
+            ImportId,
+            WorkPhone,
+            MobilePhone
         }
 
         private string _shortPostCode;
@@ -29,6 +31,8 @@ namespace MergeExcelDuplicates.ProxyObjects
             get { return _shortPostCode; }
         }
         private string _shortName;
+        private string _shortWorkPhone;
+        private string _shortMobilePhone;
 
         public string ShortName
         {
@@ -104,7 +108,19 @@ namespace MergeExcelDuplicates.ProxyObjects
         public string ImportDate
         {
             get { return _rowData[Columns.ImportDate]; }
-            set { _rowData[Columns.ImportDate] = value; }
+            set
+            {
+                var resultValue = value;
+                if (value.Length == 6)
+                {
+                    var year = value.Substring(0, 4);
+                    var month = value.Substring(4, 2);
+                    var day = value.Substring(6, 2);
+                    var resultDate = new DateTime(int.Parse(year), int.Parse(month), int.Parse(day));
+                    resultValue = resultDate.ToShortDateString();
+                }
+                _rowData[Columns.ImportDate] = resultValue;
+            }
         }
         public IEnumerable<KeyValuePair<string, string>> GetData()
         {
@@ -123,6 +139,48 @@ namespace MergeExcelDuplicates.ProxyObjects
             set { _rowData[Columns.ImportId] = value.ToString(); }
         }
 
+        public string WorkPhone
+        {
+            get
+            {
+
+                return _rowData[Columns.WorkPhone];
+            }
+            set
+            {
+                if (value != null)
+                {
+
+                    _shortWorkPhone = value.ToLower().Replace(" ", "").Replace("+", "");
+                }
+                _rowData[Columns.WorkPhone] = value;
+            }
+        }
+
+        public string MobilePhone
+        {
+            get { return _rowData[Columns.MobilePhone]; }
+            set
+            {
+                if (value != null)
+                {
+
+                    _shortMobilePhone = value.ToLower().Replace(" ", "").Replace("+", "");
+                }
+                _rowData[Columns.MobilePhone] = value;
+            }
+        }
+
+        public string ShortWorkPhone
+        {
+            get { return _shortWorkPhone; }
+        }
+
+        public string ShortMobilePhone
+        {
+            get { return _shortMobilePhone; }
+        }
+
         public static string[] ColumnsToArray()
         {
             var result = new List<string>();
@@ -139,7 +197,11 @@ namespace MergeExcelDuplicates.ProxyObjects
             return (targetAccount.ShortName == this.ShortName)
                     || (targetAccount.ShortPostCode == this.ShortPostCode
                         && targetAccount.CountyName == this.CountyName
-                        && targetAccount.TownName == this.TownName);
+                        && targetAccount.TownName == this.TownName)
+                    || (!string.IsNullOrWhiteSpace(targetAccount.ShortWorkPhone) 
+                        && this.ShortWorkPhone.Contains(targetAccount.ShortWorkPhone))
+                    || (!string.IsNullOrWhiteSpace(targetAccount.ShortMobilePhone)
+                        && this.ShortWorkPhone.Contains(targetAccount.ShortMobilePhone));
         }
 
         public bool EqualsToContact(ContactProxy targetContact)
@@ -150,6 +212,20 @@ namespace MergeExcelDuplicates.ProxyObjects
         public bool EqualsToProject(ProjectProxy targetProject)
         {
             throw new NotImplementedException();
+        }
+
+        public void Merge(AccountProxy newAccount)
+        {
+            if (!string.IsNullOrWhiteSpace(newAccount.WorkPhone))
+            {
+                if (!this.WorkPhone.Contains(newAccount.WorkPhone))
+                    this.WorkPhone += string.IsNullOrWhiteSpace(this.WorkPhone) ? "" : ";" + newAccount.WorkPhone;
+            }
+            if (!string.IsNullOrWhiteSpace(newAccount.MobilePhone))
+            {
+                if (!this.MobilePhone.Contains(newAccount.MobilePhone))
+                    this.MobilePhone += string.IsNullOrWhiteSpace(this.MobilePhone) ? "" : ";" + newAccount.MobilePhone;
+            }
         }
     }
 }

@@ -27,6 +27,8 @@ namespace MergeExcelDuplicates.ProxyObjects
                 TownName = _rowData[DataConnector.Columns.ArchitectCompanyTown],
                 CountyName = _rowData[DataConnector.Columns.ArchitectCounty],
                 PostCode = _rowData[DataConnector.Columns.ArchitectPostCode],
+                WorkPhone = _rowData[DataConnector.Columns.ArchitectWorkPhone],
+                MobilePhone = _rowData[DataConnector.Columns.ArchitectPhone],
                 ImportDate = _rowData[DataConnector.Columns.DateOfInfoReceipt],
                 ImportId = Guid.NewGuid()
             };
