@@ -196,10 +196,10 @@ namespace MergeExcelDuplicates.ProxyObjects
         }
         public bool IsEmpty()
         {
-            return (string.IsNullOrWhiteSpace(this.ShortFirstName)
-                    && string.IsNullOrWhiteSpace(this.ShortSecondName)
-                    && string.IsNullOrWhiteSpace(this.ArchitectPhone)
-                    && string.IsNullOrWhiteSpace(this.ArchitectWorkPhone)
+            return ((string.IsNullOrWhiteSpace(this.ShortFirstName) || this.ShortFirstName == "0")
+                    && (string.IsNullOrWhiteSpace(this.ShortSecondName) || this.ShortSecondName == "0")
+                //&& string.IsNullOrWhiteSpace(this.ArchitectPhone)
+                //&& string.IsNullOrWhiteSpace(this.ArchitectWorkPhone)
                     && string.IsNullOrWhiteSpace(this.ArchitectEmail));
         }
         public bool EqualsToContact(ContactProxy targetContact)
@@ -208,7 +208,8 @@ namespace MergeExcelDuplicates.ProxyObjects
                 return false;
             return (targetContact.ShortFirstName == this.ShortFirstName && targetContact.ShortSecondName == this.ShortSecondName)
                 || (targetContact.ShortSecondName == this.ShortSecondName && targetContact.FirstNameCompare(this.ShortFirstName))
-                || targetContact.IsEmpty();
+                || targetContact.IsEmpty()
+                || (targetContact.ShortSecondName == this.ShortSecondName && AccountProxy.PhoneCompare(this.ArchitectPhone, targetContact.ArchitectPhone));
 
         }
 

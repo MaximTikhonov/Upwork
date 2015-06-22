@@ -1,5 +1,6 @@
 ﻿using MergeExcelDuplicates.Logic.Interfaces;
 using MergeExcelDuplicates.ProxyObjects;
+using MergeExcelDuplicates.ProxyObjects.InitialDataSource;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -261,6 +262,31 @@ namespace MergeExcelDuplicates.Logic.Implementation
                     }
 
                 }
+                package.Save();
+            }
+        }
+
+
+        public InitialDataSheet LoadUnformattedData(Stream sourceFile)
+        {
+            var sourceExcelPackage = new ExcelPackage(sourceFile);
+            var dataSheetName = MergeExcelDuplicates.Properties.Settings.Default.ExcelWorksheetName;
+            var workSheet = sourceExcelPackage.Workbook.Worksheets[dataSheetName];
+            var result = new InitialDataSheet(workSheet);
+            return result;
+        }
+
+
+        public void CreateFormattedFile(InitialDataSheet formattedDataSheet)
+        {
+            if (File.Exists("Result//FormattedData.xlsx"))
+            {
+                File.Delete("Result//FormattedData.xlsx");
+            }
+            var fileInfo = new FileInfo("Result//FormattedData.xlsx");
+            using (var package = new ExcelPackage(fileInfo))
+            {
+                package.Workbook.Worksheets.Add("Sheet1", formattedDataSheet.GetWorkSheet());                
                 package.Save();
             }
         }

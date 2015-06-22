@@ -61,6 +61,7 @@
     <Compile Include="ProxyObjects\AccountProxy.cs" />
     <Compile Include="ProxyObjects\ContactProxy.cs" />
     <Compile Include="ProxyObjects\ICommonProxy.cs" />
+    <Compile Include="ProxyObjects\InitialDataSource\InitialDataSheet.cs" />
     <Compile Include="ProxyObjects\InitialRecordProxy.cs" />
     <Compile Include="ProxyObjects\ProjectProxy.cs" />
     <Compile Include="VisualInterface\EventNotificator.cs" />

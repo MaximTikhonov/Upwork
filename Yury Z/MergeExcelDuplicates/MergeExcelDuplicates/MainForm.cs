@@ -35,6 +35,7 @@ namespace MergeExcelDuplicates
             //Open Excel file and read data            
             Action startProcessing = (/*OpenFileDialog openFileDialog*/) =>
             {
+                MessageBox.Show("Merging started");
                 eventNotificator.StartProcess();
                 IDataConnector dataConnector = new DataConnector();
                 
@@ -88,7 +89,7 @@ namespace MergeExcelDuplicates
                     dataConnector.CreateFile(accounts.ToArray(), openFileDialog.InitialDirectory, AccountProxy.ColumnsToArray(), "accounts.xlsx");
                     dataConnector.CreateFile(projects.ToArray(), openFileDialog.InitialDirectory, ProjectProxy.ColumnsToArray(), "projects.xlsx");
                     dataConnector.CreateFile(contacts.ToArray(), openFileDialog.InitialDirectory, ContactProxy.ColumnsToArray(), "contacts.xlsx");
-                    MessageBox.Show("Import completed");
+                    MessageBox.Show("Merging completed");
                 }
             };
             //this.BeginInvoke(startProcessing);
@@ -113,6 +114,31 @@ namespace MergeExcelDuplicates
             //lblProgressInfo.Text = string.Format("Processing {0} in {1}",e.CurrentRecordNum, e.TotalRecords);
             //processingProgress.Maximum = e.TotalRecords;
             //processingProgress.Value = 0;
+        }
+
+        private async void button2_Click(object sender, EventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog();
+            var dialogResult = openFileDialog.ShowDialog();
+            if (dialogResult != System.Windows.Forms.DialogResult.OK)
+                return;
+            Action prepareInitialListAction = () => {
+                MessageBox.Show("Preparing started");
+                IDataConnector dataConnector = new DataConnector();                
+                using (var sourceFile = openFileDialog.OpenFile())
+                {
+                    //var sourceFile = openFileDialog.FileName;
+                    var unformattedDataSheet = dataConnector.LoadUnformattedData(sourceFile);
+                    var rowsCount = unformattedDataSheet.CountRows();
+                    for (int i = 2; i <= rowsCount; i++)
+                    {
+                        unformattedDataSheet.FormatRow(i);
+                    }
+                    dataConnector.CreateFormattedFile(unformattedDataSheet);
+                }
+                MessageBox.Show("Preparing completed");
+            };
+            await Task.Run(prepareInitialListAction);
         }
     }
 }

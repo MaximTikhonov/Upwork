@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace MergeExcelDuplicates.ProxyObjects
@@ -23,6 +24,7 @@ namespace MergeExcelDuplicates.ProxyObjects
             WorkPhone,
             MobilePhone
         }
+        private static string[] _technicalStrings = { " ltd"," limited", " lld","-"," llp"};
 
         private string _shortPostCode;
 
@@ -45,9 +47,13 @@ namespace MergeExcelDuplicates.ProxyObjects
             {
                 if (value != null)
                 {
-                    _shortName = value.Replace(" ", "").ToLower().Replace(".", "").Replace("limited", "ltd").Replace(",", "")
-                        .Replace("and", "&");
-
+                    _shortName = value;
+                    foreach (var iTechStrings in _technicalStrings)
+                    {
+                        _shortName = _shortName.ToLower().Replace(iTechStrings, "");
+                    }
+                    _shortName = _shortName.Replace(" ", "").Replace(".", "").Replace("limited", "ltd").Replace(",", "")
+                        .Replace("and", "&");            
                 }
                 else
                     _shortName = value;
@@ -194,14 +200,15 @@ namespace MergeExcelDuplicates.ProxyObjects
 
         public bool EqualsToAccount(AccountProxy targetAccount)
         {
+
             return (targetAccount.ShortName == this.ShortName)
-                    || (targetAccount.ShortPostCode == this.ShortPostCode
-                        && targetAccount.CountyName == this.CountyName
-                        && targetAccount.TownName == this.TownName)
-                    || (!string.IsNullOrWhiteSpace(targetAccount.ShortWorkPhone) 
-                        && this.ShortWorkPhone.Contains(targetAccount.ShortWorkPhone))
+                    //|| (targetAccount.ShortPostCode == this.ShortPostCode && targetAccount.ShortPostCode.Length > 1
+                    //    && targetAccount.CountyName == this.CountyName && targetAccount.CountyName.Length > 1
+                    //    && targetAccount.TownName == this.TownName && targetAccount.TownName.Length > 1)
+                    || (!string.IsNullOrWhiteSpace(targetAccount.ShortWorkPhone)
+                        && PhoneCompare(this.ShortWorkPhone,targetAccount.ShortWorkPhone)) 
                     || (!string.IsNullOrWhiteSpace(targetAccount.ShortMobilePhone)
-                        && this.ShortWorkPhone.Contains(targetAccount.ShortMobilePhone));
+                        && PhoneCompare(this.ShortMobilePhone,targetAccount.ShortMobilePhone));
         }
 
         public bool EqualsToContact(ContactProxy targetContact)
@@ -227,5 +234,18 @@ namespace MergeExcelDuplicates.ProxyObjects
                     this.MobilePhone += string.IsNullOrWhiteSpace(this.MobilePhone) ? "" : ";" + newAccount.MobilePhone;
             }
         }
+        public static bool PhoneCompare(string existingValue, string newValue)
+        {
+            if (phoneCompare == null)
+            {
+                phoneCompare = new Regex(@"\d+");
+            }            
+            var exisitingPhone = phoneCompare.Match(existingValue).Value;
+            var newPhone = phoneCompare.Match(newValue).Value;
+            if (newPhone.Length < 6)
+                return false;
+            return exisitingPhone.Contains(newPhone);
+        }
+        private static Regex phoneCompare = null;
     }
 }
