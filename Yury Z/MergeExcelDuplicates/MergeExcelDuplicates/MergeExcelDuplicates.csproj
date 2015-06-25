@@ -49,6 +49,8 @@
   <ItemGroup>
     <Compile Include="Logic\Extensions.cs" />
     <Compile Include="Logic\Implementation\DataConnector.cs" />
+    <Compile Include="Logic\Implementation\DataConnectorExtraLeads.cs" />
+    <Compile Include="Logic\Implementation\DataConnectorSimple.cs" />
     <Compile Include="Logic\Interfaces\IDataConnector.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>

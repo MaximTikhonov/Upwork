@@ -37,7 +37,7 @@ namespace MergeExcelDuplicates
             {
                 MessageBox.Show("Merging started");
                 eventNotificator.StartProcess();
-                IDataConnector dataConnector = new DataConnector();
+                IDataConnector dataConnector = new DataConnectorSimple();
                 
                 using (var sourceFile = openFileDialog.OpenFile())
                 {
@@ -80,8 +80,14 @@ namespace MergeExcelDuplicates
                             }
                         }
                         var existingProject = projects.GetEqualProject(newProject);
-                        if (existingProject == null)
+                        if (existingProject == null){
+
                             projects.Add(newProject);
+                        }
+                        else
+                        {
+                            existingProject.Merge(newProject);
+                        }
                         eventNotificator.DataProcessed(counter++, totalRecordsCount);
                     }
                     //Save splitted data to 3 files
@@ -118,27 +124,27 @@ namespace MergeExcelDuplicates
 
         private async void button2_Click(object sender, EventArgs e)
         {
-            var openFileDialog = new OpenFileDialog();
-            var dialogResult = openFileDialog.ShowDialog();
-            if (dialogResult != System.Windows.Forms.DialogResult.OK)
-                return;
-            Action prepareInitialListAction = () => {
-                MessageBox.Show("Preparing started");
-                IDataConnector dataConnector = new DataConnector();                
-                using (var sourceFile = openFileDialog.OpenFile())
-                {
-                    //var sourceFile = openFileDialog.FileName;
-                    var unformattedDataSheet = dataConnector.LoadUnformattedData(sourceFile);
-                    var rowsCount = unformattedDataSheet.CountRows();
-                    for (int i = 2; i <= rowsCount; i++)
-                    {
-                        unformattedDataSheet.FormatRow(i);
-                    }
-                    dataConnector.CreateFormattedFile(unformattedDataSheet);
-                }
-                MessageBox.Show("Preparing completed");
-            };
-            await Task.Run(prepareInitialListAction);
+            //var openFileDialog = new OpenFileDialog();
+            //var dialogResult = openFileDialog.ShowDialog();
+            //if (dialogResult != System.Windows.Forms.DialogResult.OK)
+            //    return;
+            //Action prepareInitialListAction = () => {
+            //    MessageBox.Show("Preparing started");
+            //    IDataConnector dataConnector = new DataConnector();                
+            //    using (var sourceFile = openFileDialog.OpenFile())
+            //    {
+            //        //var sourceFile = openFileDialog.FileName;
+            //        var unformattedDataSheet = dataConnector.LoadUnformattedData(sourceFile);
+            //        var rowsCount = unformattedDataSheet.CountRows();
+            //        for (int i = 2; i <= rowsCount; i++)
+            //        {
+            //            unformattedDataSheet.FormatRow(i);
+            //        }
+            //        dataConnector.CreateFormattedFile(unformattedDataSheet);
+            //    }
+            //    MessageBox.Show("Preparing completed");
+            //};
+            //await Task.Run(prepareInitialListAction);
         }
     }
 }

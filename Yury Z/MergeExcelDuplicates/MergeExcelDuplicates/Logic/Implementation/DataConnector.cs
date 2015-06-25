@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MergeExcelDuplicates.Logic.Implementation
 {
-    public class DataConnector : IDataConnector
+    public abstract class DataConnector : IDataConnector
     {
         private int headersRow;
         public enum Columns
@@ -37,7 +37,7 @@ namespace MergeExcelDuplicates.Logic.Implementation
             ShortWorkDescription2,//project
             ArchitectSex,//contact
             ArchitectFirstName,//contact
-            ArchitectSecondName,//contact
+            ArchitectLastName,//contact
             ArchitectCompanyName,//company
             ArchitectCompanyAddress1,//company
             ArchitectCompanyAddress2,//company
@@ -58,6 +58,17 @@ namespace MergeExcelDuplicates.Logic.Implementation
             ArchitectRole,//contact
             ArchitectWebsite,//contact
             ArchitectFax//contact
+            ,
+            ArchitectCompanyEmail,
+            ProjectNo,
+            ProjectValue,
+            ProjectPlanningRef,
+            ProjectDevelopmentType,
+            ProjectStage,
+            ProjectStatus,
+            ProjectSchemeDetails,
+            ProjectProgrammeTiming,
+            ProjectContractType
         }
         public List<InitialRecordProxy> LoadInitialData(Stream sourceFileStream)
         {
@@ -76,8 +87,8 @@ namespace MergeExcelDuplicates.Logic.Implementation
             }
             return result;
         }
-
-        private InitialRecordProxy GetRowRecord(int rowIndex, Dictionary<Columns, int> headers, ExcelWorksheet workSheet)
+        abstract  protected Dictionary<DataConnector.Columns, int> ReadHeaders(ExcelWorksheet workSheet);
+        protected InitialRecordProxy GetRowRecord(int rowIndex, Dictionary<Columns, int> headers, ExcelWorksheet workSheet)
         {
             var rowData = new Dictionary<Columns, string>();
             var columnsCount = workSheet.Dimension.End.Column;
@@ -85,158 +96,17 @@ namespace MergeExcelDuplicates.Logic.Implementation
             {
                 if (!headers.Any(p => p.Value == columnIndex))
                     continue;
-                var columnType = headers.FirstOrDefault(p => p.Value == columnIndex).Key;
-                rowData.Add(columnType, workSheet.Cells[rowIndex, columnIndex].SafeStringValue());
+                var columnType = headers.Where(p => p.Value == columnIndex);
+                foreach (var iHeader in columnType)
+                {
+                    if (!rowData.ContainsKey(iHeader.Key))
+                    rowData.Add(iHeader.Key, workSheet.Cells[rowIndex, columnIndex].SafeStringValue());    
+                }
+                
             }
             var result = new InitialRecordProxy(rowData);
             return result;
         }
-
-        private Dictionary<Columns, int> ReadHeaders(ExcelWorksheet workSheet)
-        {
-            var result = new Dictionary<Columns, int>();
-            var lastColumnIndex = workSheet.Dimension.End.Column;
-            for (int rowIndex = 1; rowIndex <= 4; rowIndex++)
-            {
-                for (int columnIndex = 1; columnIndex <= lastColumnIndex; columnIndex++)
-                {
-                    switch (workSheet.Cells[rowIndex, columnIndex].SafeStringValue())
-                    {
-                        case "ID":
-                            result[Columns.CustomId] = columnIndex;
-                            break;
-                        case "Column1"://Id of information supplier
-                            result[Columns.IdOfInformationSupplier] = columnIndex;
-                            break;
-                        case "Full Data":
-                            result[Columns.FullData] = columnIndex;
-                            break;
-                        case "Import Date":
-                            result[Columns.DateOfInfoReceipt] = columnIndex;
-                            break;
-                        case "ApNo":
-                            result[Columns.InternalId] = columnIndex;
-                            break;
-                        case "ExtRef":
-                            result[Columns.GovermentReference] = columnIndex;
-                            break;
-                        case "AppDate":
-                            result[Columns.AppDate] = columnIndex;
-                            break;
-                        case "Client Title":
-                            result[Columns.ClientTitle] = columnIndex;
-                            break;
-                        case "Client Name":
-                            result[Columns.ClientName] = columnIndex;
-                            break;
-                        case "Client Surname":
-                            result[Columns.ClientSurname] = columnIndex;
-                            break;
-                        case "Client Company Name":
-                            result[Columns.ClientCompanyName] = columnIndex;
-                            break;
-                        case "Client Address 1":
-                            result[Columns.ClientAddress1] = columnIndex;
-                            break;
-                        case "Client Address 2":
-                            result[Columns.ClientAddress2] = columnIndex;
-                            break;
-                        case "Client Address 3":
-                            result[Columns.ClientAddress3] = columnIndex;
-                            break;
-                        case "Client Town":
-                            result[Columns.ClientTown] = columnIndex;
-                            break;
-                        case "Client County":
-                            result[Columns.ClientCounty] = columnIndex;
-                            break;
-                        case "Client Postcode":
-                            result[Columns.ClientPostcode] = columnIndex;
-                            break;
-                        case "Description 1":
-                            result[Columns.ShortWorkDescription1] = columnIndex;
-                            break;
-                        case "Description 2":
-                            result[Columns.ShortWorkDescription2] = columnIndex;
-                            break;
-                        case "Title":
-                            result[Columns.ArchitectSex] = columnIndex;
-                            break;
-                        case "First Name":
-                            result[Columns.ArchitectFirstName] = columnIndex;
-                            break;
-                        case "Second Name":
-                            result[Columns.ArchitectSecondName] = columnIndex;
-                            break;
-                        case "company_name":
-                            result[Columns.ArchitectCompanyName] = columnIndex;
-                            break;
-                        case "Address 1":
-                            result[Columns.ArchitectCompanyAddress1] = columnIndex;
-                            break;
-                        case "Address 2":
-                            result[Columns.ArchitectCompanyAddress2] = columnIndex;
-                            break;
-                        case "Address 3":
-                            result[Columns.ArchitectCompanyAddress3] = columnIndex;
-                            break;
-                        case "Town":
-                            result[Columns.ArchitectCompanyTown] = columnIndex;
-                            break;
-                        case "County":
-                            result[Columns.ArchitectCounty] = columnIndex;
-                            break;
-                        case "Post Code":
-                            result[Columns.ArchitectPostCode] = columnIndex;
-                            break;
-                        case "Work Phone":
-                            result[Columns.ArchitectWorkPhone] = columnIndex;
-                            break;
-                        case "Lead Name":
-                            result[Columns.ProjectName] = columnIndex;
-                            break;
-                        case "Site Address 1":
-                            result[Columns.ProjectSiteAddress1] = columnIndex;
-                            break;
-                        case "Site Address 2":
-                            result[Columns.ProjectSiteAddress2] = columnIndex;
-                            break;
-                        case "Site Town":
-                            result[Columns.ProjectSiteTown] = columnIndex;
-                            break;
-                        case "Site County":
-                            result[Columns.ProjectSiteCounty] = columnIndex;
-                            break;
-                        case "Site Postcode":
-                            result[Columns.ProjectSitePostcode] = columnIndex;
-                            break;
-                        case "email":
-                            result[Columns.ArchitectEmail] = columnIndex;
-                            break;
-                        case "Client phone Cleaned":
-                            result[Columns.ClientCleanedPhone] = columnIndex;
-                            break;
-                        case "Work Phone Cleaned":
-                            result[Columns.ArchitectPhone] = columnIndex;
-                            break;
-                        case "Role":
-                            result[Columns.ArchitectRole] = columnIndex;
-                            break;
-                        case "Site":
-                            result[Columns.ArchitectWebsite] = columnIndex;
-                            break;
-                        case "Fax":
-                            result[Columns.ArchitectFax] = columnIndex;
-                            break;
-                    }
-                }
-                if (result.Any())
-                    break;
-            }
-            return result;
-        }
-
-
         public void CreateFile(ICommonProxy[] source, string directoryName, string[] columns, string fileName)
         {
             if (File.Exists(directoryName + "Result//" + fileName))

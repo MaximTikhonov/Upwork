@@ -21,14 +21,25 @@ namespace MergeExcelDuplicates.ProxyObjects
             ArchitectFax,
             ArchitectSex,
             ImportId,
-            AccountId
+            AccountId,
+            ShortFirstName,
+            ShortSecondName
         }
         private string _shortFirstName;
 
         public string ShortFirstName
         {
             get { return _shortFirstName; }
+            set
+            {
+                if (value != null)
+                    _shortFirstName = value.Replace(" ", "").ToLower().Replace(".", "").Replace(",", "");
+                else
+                    _shortFirstName = value;
+                _rowData[Columns.ShortFirstName] = value;
+            }
         }
+
         public string FirstName
         {
             get { return _rowData[Columns.FirstName]; }
@@ -36,10 +47,8 @@ namespace MergeExcelDuplicates.ProxyObjects
             {
                 if (value == "0")
                     value = "";
-                if (value != null)
-                    _shortFirstName = value.Replace(" ", "").ToLower().Replace(".", "").Replace(",", "");
-                else
-                    _shortFirstName = value;
+                ShortFirstName = value;
+                
                 _rowData[Columns.FirstName] = value;
             }
         }
@@ -48,7 +57,16 @@ namespace MergeExcelDuplicates.ProxyObjects
         public string ShortSecondName
         {
             get { return _shortSecondName; }
+            set
+            {
+                if (value != null)
+                    _shortSecondName = value.Replace(" ", "").ToLower().Replace(".", "").Replace(",", "");
+                else
+                    _shortSecondName = value;
+                _rowData[Columns.ShortSecondName] = value;
+            }
         }
+
         public string SecondName
         {
             get { return _rowData[Columns.SecondName]; }
@@ -56,10 +74,7 @@ namespace MergeExcelDuplicates.ProxyObjects
             {
                 if (value == "0")
                     value = "";
-                if (value != null)
-                    _shortSecondName = value.Replace(" ", "").ToLower().Replace(".", "").Replace(",", "");
-                else
-                    _shortSecondName = value;
+                ShortSecondName = value;
                 _rowData[Columns.SecondName] = value;
             }
         }

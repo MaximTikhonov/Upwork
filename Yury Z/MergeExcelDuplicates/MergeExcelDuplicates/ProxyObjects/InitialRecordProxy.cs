@@ -15,6 +15,11 @@ namespace MergeExcelDuplicates.ProxyObjects
         {
             // TODO: Complete member initialization
             this._rowData = rowData;
+            foreach (DataConnector.Columns iColumn in Enum.GetValues(typeof(DataConnector.Columns)))
+            {
+                if (!_rowData.ContainsKey(iColumn))
+                    _rowData[iColumn] = "";
+            }
         }
         internal AccountProxy ToAccount()
         {
@@ -30,6 +35,8 @@ namespace MergeExcelDuplicates.ProxyObjects
                 WorkPhone = _rowData[DataConnector.Columns.ArchitectWorkPhone],
                 MobilePhone = _rowData[DataConnector.Columns.ArchitectPhone],
                 ImportDate = _rowData[DataConnector.Columns.DateOfInfoReceipt],
+                Email = _rowData[DataConnector.Columns.ArchitectEmail],
+                WebSite = _rowData[DataConnector.Columns.ArchitectWebsite],
                 ImportId = Guid.NewGuid()
             };
             return accountResult;
@@ -50,6 +57,15 @@ namespace MergeExcelDuplicates.ProxyObjects
                 GovermentReference = _rowData[DataConnector.Columns.GovermentReference],
                 ShortWorkDescription1 = _rowData[DataConnector.Columns.ShortWorkDescription1],
                 ShortWorkDescription2 = _rowData[DataConnector.Columns.ShortWorkDescription2],
+                ProjectNo = _rowData[DataConnector.Columns.ProjectNo],
+                ProjectValue = _rowData[DataConnector.Columns.ProjectValue],
+                ProjectPlanningRef = _rowData[DataConnector.Columns.ProjectPlanningRef],
+                ProjectDevelopmentType = _rowData[DataConnector.Columns.ProjectDevelopmentType],
+                ProjectStage = _rowData[DataConnector.Columns.ProjectStage],
+                ProjectStatus = _rowData[DataConnector.Columns.ProjectStatus],
+                ProjectSchemeDetails = _rowData[DataConnector.Columns.ProjectSchemeDetails],
+                ProjectProgrammeTiming = _rowData[DataConnector.Columns.ProjectProgrammeTiming],
+                ProjectContractType = _rowData[DataConnector.Columns.ProjectContractType],
                 ImportId = Guid.NewGuid()
             };
             return projectResult;
@@ -60,7 +76,7 @@ namespace MergeExcelDuplicates.ProxyObjects
             var contactResult = new ContactProxy()
             {
                 FirstName = _rowData[DataConnector.Columns.ArchitectFirstName],
-                SecondName = _rowData[DataConnector.Columns.ArchitectSecondName],
+                SecondName = _rowData[DataConnector.Columns.ArchitectLastName],
                 ArchitectWorkPhone = _rowData[DataConnector.Columns.ArchitectWorkPhone],
                 ArchitectEmail = _rowData[DataConnector.Columns.ArchitectEmail],
                 ArchitectPhone = _rowData[DataConnector.Columns.ArchitectPhone],

@@ -24,7 +24,16 @@ namespace MergeExcelDuplicates.ProxyObjects
             ShortWorkDescription2,
             ImportId,
             Accountid,
-            ContactId
+            ContactId,
+            ProjectNo,
+            ProjectValue,
+            ProjectPlanningRef,
+            ProjectDevelopmentType,
+            ProjectStage,
+            ProjectStatus,
+            ProjectSchemeDetails,
+            ProjectContractType,
+            ProjectProgrammeTiming
         }
 
         public string Name
@@ -177,6 +186,53 @@ namespace MergeExcelDuplicates.ProxyObjects
             }
         }
 
+        public string ProjectNo
+        {
+            get { return _rowData[Columns.ProjectNo]; }
+            set { _rowData[Columns.ProjectNo] = value; }
+        }
+
+        public string ProjectValue
+        {
+            get { return _rowData[Columns.ProjectValue]; }
+            set { _rowData[Columns.ProjectValue] = value; }
+        }
+        public string ProjectPlanningRef
+        {
+            get { return _rowData[Columns.ProjectPlanningRef]; }
+            set { _rowData[Columns.ProjectPlanningRef] = value; }
+        }
+        public string ProjectDevelopmentType
+        {
+            get { return _rowData[Columns.ProjectDevelopmentType]; }
+            set { _rowData[Columns.ProjectDevelopmentType] = value; }
+        }
+        public string ProjectStage
+        {
+            get { return _rowData[Columns.ProjectStage]; }
+            set { _rowData[Columns.ProjectStage] = value; }
+        }
+        public string ProjectStatus
+        {
+            get { return _rowData[Columns.ProjectStatus]; }
+            set { _rowData[Columns.ProjectStatus] = value; }
+        }
+        public string ProjectSchemeDetails
+        {
+            get { return _rowData[Columns.ProjectSchemeDetails]; }
+            set { _rowData[Columns.ProjectSchemeDetails] = value; }
+        }
+        public string ProjectProgrammeTiming
+        {
+            get { return _rowData[Columns.ProjectProgrammeTiming]; }
+            set { _rowData[Columns.ProjectProgrammeTiming] = value; }
+        }
+        public string ProjectContractType
+        {
+            get { return _rowData[Columns.ProjectContractType]; }
+            set { _rowData[Columns.ProjectContractType] = value; }
+        }
+
         public IEnumerable<KeyValuePair<string, string>> GetData()
         {
             return _rowData.Select(p => new KeyValuePair<string, string>(p.Key.ToString(), p.Value));
@@ -194,7 +250,9 @@ namespace MergeExcelDuplicates.ProxyObjects
 
         public bool EqualsToProject(ProjectProxy targetProject)
         {
-            return targetProject.FullData.ToLower() == this.FullData.ToLower();
+            return targetProject.FullData.Replace(" ", "").ToLower() == this.FullData.Replace(" ", "").ToLower()
+                &&this.Accountid== targetProject.Accountid
+                &&this.ContactId==targetProject.ContactId;
         }
 
         internal static string[] ColumnsToArray()
@@ -205,6 +263,32 @@ namespace MergeExcelDuplicates.ProxyObjects
                 result.Add(item.ToString());
             }
             return result.ToArray();
+        }
+
+        internal void Merge(ProjectProxy newProject)
+        {
+            //if (string.IsNullOrEmpty(this.ProjectSiteTown) && !string.IsNullOrEmpty(newProject.ProjectSiteTown))
+            //    this.ProjectSiteTown = newProject.ProjectSiteTown;
+            //if (string.IsNullOrEmpty(this.ProjectSitePostcode) && !string.IsNullOrEmpty(newProject.ProjectSitePostcode))
+            //    this.ProjectSitePostcode = newProject.ProjectSitePostcode;
+            //if (string.IsNullOrEmpty(this.ProjectSiteCounty) && !string.IsNullOrEmpty(newProject.ProjectSiteCounty))
+            //    this.ProjectSiteCounty = newProject.ProjectSiteCounty;
+            //if (string.IsNullOrEmpty(this.GovermentReference) && !string.IsNullOrEmpty(newProject.GovermentReference))
+            //    this.GovermentReference = newProject.GovermentReference;
+            //if (string.IsNullOrEmpty(this.ShortWorkDescription1) && !string.IsNullOrEmpty(newProject.ShortWorkDescription1))
+            //    this.ShortWorkDescription1 = newProject.ShortWorkDescription1;
+            //if (string.IsNullOrEmpty(this.ShortWorkDescription2) && !string.IsNullOrEmpty(newProject.ShortWorkDescription2))
+            //    this.ShortWorkDescription2 = newProject.ShortWorkDescription2;
+            //if (string.IsNullOrEmpty(this.ProjectValue) && !string.IsNullOrEmpty(newProject.ProjectValue))
+            //    this.ProjectValue = newProject.ProjectValue;
+            //if (string.IsNullOrEmpty(this.ShortWorkDescription1) && !string.IsNullOrEmpty(newProject.ShortWorkDescription1))
+            //    this.ShortWorkDescription1 = newProject.ShortWorkDescription1;
+            var currentData = _rowData.ToList();
+            foreach (var iData in currentData)
+            {
+                if (string.IsNullOrWhiteSpace(iData.Value) && !string.IsNullOrEmpty(newProject._rowData[iData.Key]))
+                    _rowData[iData.Key] = newProject._rowData[iData.Key];
+            }
         }
     }
 }

@@ -1,10 +1,12 @@
-﻿using MergeExcelDuplicates.ProxyObjects;
+﻿using MergeExcelDuplicates.Logic.Implementation;
+using MergeExcelDuplicates.ProxyObjects;
 using MergeExcelDuplicates.ProxyObjects.InitialDataSource;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OfficeOpenXml;
 
 namespace MergeExcelDuplicates.Logic.Interfaces
 {
@@ -18,5 +20,6 @@ namespace MergeExcelDuplicates.Logic.Interfaces
         InitialDataSheet LoadUnformattedData(System.IO.Stream sourceFile);
 
         void CreateFormattedFile(InitialDataSheet unformattedDataSheet);
+        
     }
 }
