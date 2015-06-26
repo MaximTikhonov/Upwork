@@ -33,7 +33,9 @@ namespace MergeExcelDuplicates.ProxyObjects
             ProjectStatus,
             ProjectSchemeDetails,
             ProjectContractType,
-            ProjectProgrammeTiming
+            ProjectProgrammeTiming,
+            Email,
+            Phone
         }
 
         public string Name
@@ -231,6 +233,18 @@ namespace MergeExcelDuplicates.ProxyObjects
         {
             get { return _rowData[Columns.ProjectContractType]; }
             set { _rowData[Columns.ProjectContractType] = value; }
+        }
+
+        public string Email
+        {
+            get { return _rowData[Columns.Email]; }
+            set { _rowData[Columns.Email] = value; }
+        }
+
+        public string Phone
+        {
+            get { return _rowData[Columns.Phone]; }
+            set { _rowData[Columns.Phone] = value; }
         }
 
         public IEnumerable<KeyValuePair<string, string>> GetData()

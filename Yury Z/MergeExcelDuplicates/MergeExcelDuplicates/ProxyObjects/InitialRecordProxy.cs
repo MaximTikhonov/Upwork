@@ -66,6 +66,8 @@ namespace MergeExcelDuplicates.ProxyObjects
                 ProjectSchemeDetails = _rowData[DataConnector.Columns.ProjectSchemeDetails],
                 ProjectProgrammeTiming = _rowData[DataConnector.Columns.ProjectProgrammeTiming],
                 ProjectContractType = _rowData[DataConnector.Columns.ProjectContractType],
+                Email = _rowData[DataConnector.Columns.ArchitectCompanyEmail],
+                Phone = _rowData[DataConnector.Columns.ArchitectWorkPhone],
                 ImportId = Guid.NewGuid()
             };
             return projectResult;
