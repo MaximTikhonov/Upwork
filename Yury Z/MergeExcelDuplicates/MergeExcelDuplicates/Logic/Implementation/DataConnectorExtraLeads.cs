@@ -76,38 +76,38 @@ namespace MergeExcelDuplicates.Logic.Implementation
                         case "Description 2":
                             result[Columns.ShortWorkDescription2] = columnIndex;
                             break;
-                        case "ContactTitle":
+                        case "Title":
                             result[Columns.ArchitectSex] = columnIndex;
                             break;
-                        case "ContactFirst_name":
+                        case "First Name":
                             result[Columns.ArchitectFirstName] = columnIndex;
                             break;
-                        case "ContactLast_name":
+                        case "Second Name":
                             result[Columns.ArchitectLastName] = columnIndex;
                             break;
                         case "company_name":
                             result[Columns.ArchitectCompanyName] = columnIndex;
                             break;
-                        case "company_address1":
+                        case "Address 1":
                             result[Columns.ArchitectCompanyAddress1] = columnIndex;
                             break;
-                        case "company_address2":
+                        case "Address 2":
                             result[Columns.ArchitectCompanyAddress2] = columnIndex;
                             break;
                         //case "company_address3":
                         //    result[Columns.ArchitectCompanyAddress3] = columnIndex;
                         //    break;
-                        case "company_town":
+                        case "Town":
                             result[Columns.ArchitectCompanyTown] = columnIndex;
                             result[Columns.ArchitectCompanyAddress3] = columnIndex;
                             break;
-                        case "company_county":
+                        case "County":
                             result[Columns.ArchitectCounty] = columnIndex;
                             break;
-                        case "postcode":
+                        case "Post Code":
                             result[Columns.ArchitectPostCode] = columnIndex;
                             break;
-                        case "company_phone":
+                        case "Work Phone":
                             result[Columns.ArchitectWorkPhone] = columnIndex;
                             result[Columns.ArchitectPhone] = columnIndex;
                             break;
@@ -140,10 +140,10 @@ namespace MergeExcelDuplicates.Logic.Implementation
                             result[Columns.ProjectName] = columnIndex;
                             result[Columns.FullData] = columnIndex;
                             break;
-                        case "ProjectShort_site_address":
+                        case "Lead Name":
                             result[Columns.ProjectSiteAddress1] = columnIndex;
                             break;
-                        case "ProjectSite_address1":
+                        case "Site Address 1":
                             result[Columns.ProjectSiteAddress2] = columnIndex;
                             break;
                         case "Site Town":

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using MergeExcelDuplicates.Logic.Comparesion;
 
 namespace MergeExcelDuplicates.ProxyObjects
 {
@@ -254,7 +255,9 @@ namespace MergeExcelDuplicates.ProxyObjects
                             || PhoneCompare(this.ExtraPhones, targetAccount.WorkPhone)))
                     || (!string.IsNullOrWhiteSpace(targetAccount.MobilePhone)
                         && (PhoneCompare(this.MobilePhone, targetAccount.MobilePhone)
-                            || PhoneCompare(this.ExtraPhones, targetAccount.MobilePhone)));
+                            || PhoneCompare(this.ExtraPhones, targetAccount.MobilePhone)))
+                    || (targetAccount.ShortPostCode == this.ShortPostCode && targetAccount.ShortPostCode.Length > 1
+                        && FuzzyStringComparer.IsStringsFuzzyEquals(targetAccount.ShortName,this.ShortName,70));
         }
 
         public bool EqualsToContact(ContactProxy targetContact)

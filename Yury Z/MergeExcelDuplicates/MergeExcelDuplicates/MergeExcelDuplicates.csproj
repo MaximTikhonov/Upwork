@@ -47,6 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Logic\Comparesion\LevenshteinDistance.cs" />
+    <Compile Include="Logic\Comparesion\FuzzyStringComparer.cs" />
     <Compile Include="Logic\Extensions.cs" />
     <Compile Include="Logic\Implementation\DataConnector.cs" />
     <Compile Include="Logic\Implementation\DataConnectorExtraLeads.cs" />

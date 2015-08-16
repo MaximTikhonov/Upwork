@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MergingAccountsActivity", "MergingAccountsActivity.csproj", "{343E8F24-E260-4604-A8C9-DF4D9D9FD985}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestMerging", "..\TestMerging\TestMerging.csproj", "{9A36106B-4305-498D-8A20-467EBE9CBAA8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketingListFactory", "..\MarketingListFactory\MarketingListFactory.csproj", "{279B03B5-05AC-46AE-B38F-4DAF54F0C6B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MergeExcelDuplicates", "..\..\MergeExcelDuplicates\MergeExcelDuplicates\MergeExcelDuplicates.csproj", "{BE90A727-18D0-4439-8BBA-B3DC2812214A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{343E8F24-E260-4604-A8C9-DF4D9D9FD985}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{343E8F24-E260-4604-A8C9-DF4D9D9FD985}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{343E8F24-E260-4604-A8C9-DF4D9D9FD985}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{343E8F24-E260-4604-A8C9-DF4D9D9FD985}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A36106B-4305-498D-8A20-467EBE9CBAA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A36106B-4305-498D-8A20-467EBE9CBAA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A36106B-4305-498D-8A20-467EBE9CBAA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A36106B-4305-498D-8A20-467EBE9CBAA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{279B03B5-05AC-46AE-B38F-4DAF54F0C6B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{279B03B5-05AC-46AE-B38F-4DAF54F0C6B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{279B03B5-05AC-46AE-B38F-4DAF54F0C6B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{279B03B5-05AC-46AE-B38F-4DAF54F0C6B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE90A727-18D0-4439-8BBA-B3DC2812214A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE90A727-18D0-4439-8BBA-B3DC2812214A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE90A727-18D0-4439-8BBA-B3DC2812214A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE90A727-18D0-4439-8BBA-B3DC2812214A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

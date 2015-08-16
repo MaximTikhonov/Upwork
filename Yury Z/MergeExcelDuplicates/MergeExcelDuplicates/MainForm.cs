@@ -37,7 +37,7 @@ namespace MergeExcelDuplicates
             {
                 MessageBox.Show("Merging started");
                 eventNotificator.StartProcess();
-                IDataConnector dataConnector = new DataConnectorSimple();
+                IDataConnector dataConnector = new DataConnectorExtraLeads();
                 
                 using (var sourceFile = openFileDialog.OpenFile())
                 {

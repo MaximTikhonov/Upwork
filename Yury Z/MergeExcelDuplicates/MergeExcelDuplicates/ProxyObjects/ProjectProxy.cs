@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MergeExcelDuplicates.Logic.Comparesion;
 
 namespace MergeExcelDuplicates.ProxyObjects
 {
@@ -35,7 +36,9 @@ namespace MergeExcelDuplicates.ProxyObjects
             ProjectContractType,
             ProjectProgrammeTiming,
             Email,
-            Phone
+            Phone,
+            LastName,
+            FirstName
         }
 
         public string Name
@@ -247,6 +250,18 @@ namespace MergeExcelDuplicates.ProxyObjects
             set { _rowData[Columns.Phone] = value; }
         }
 
+        public string LastName
+        {
+            get { return _rowData[Columns.LastName]; }
+            set { _rowData[Columns.LastName] = value; }
+        }
+
+        public string FirstName
+        {
+            get { return _rowData[Columns.FirstName]; }
+            set { _rowData[Columns.FirstName] = value; }
+        }
+
         public IEnumerable<KeyValuePair<string, string>> GetData()
         {
             return _rowData.Select(p => new KeyValuePair<string, string>(p.Key.ToString(), p.Value));
@@ -264,9 +279,10 @@ namespace MergeExcelDuplicates.ProxyObjects
 
         public bool EqualsToProject(ProjectProxy targetProject)
         {
-            return targetProject.FullData.Replace(" ", "").ToLower() == this.FullData.Replace(" ", "").ToLower()
-                &&this.Accountid== targetProject.Accountid
-                &&this.ContactId==targetProject.ContactId;
+            return (targetProject.FullData.Replace(" ", "").ToLower() == this.FullData.Replace(" ", "").ToLower()
+                    &&this.Accountid== targetProject.Accountid
+                    &&this.ContactId==targetProject.ContactId)
+                || (this.Accountid == targetProject.Accountid&&FuzzyStringComparer.IsStringsFuzzyEquals(targetProject.ProjectSiteAddress1,this.ProjectSiteAddress1,80));
         }
 
         internal static string[] ColumnsToArray()

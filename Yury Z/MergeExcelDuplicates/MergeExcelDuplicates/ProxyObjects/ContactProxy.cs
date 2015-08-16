@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MergeExcelDuplicates.Logic.Comparesion;
 
 namespace MergeExcelDuplicates.ProxyObjects
 {
@@ -23,7 +24,8 @@ namespace MergeExcelDuplicates.ProxyObjects
             ImportId,
             AccountId,
             ShortFirstName,
-            ShortSecondName
+            ShortSecondName,
+            ImportDate
         }
         private string _shortFirstName;
 
@@ -172,7 +174,23 @@ namespace MergeExcelDuplicates.ProxyObjects
                     _rowData[Columns.ImportId] = "";
             }
         }
-
+        public string ImportDate
+        {
+            get { return _rowData[Columns.ImportDate]; }
+            set
+            {
+                var resultValue = value;
+                if (value.Length == 8)
+                {
+                    var year = value.Substring(0, 4);
+                    var month = value.Substring(4, 2);
+                    var day = value.Substring(6, 2);
+                    var resultDate = new DateTime(int.Parse(year), int.Parse(month), int.Parse(day));
+                    resultValue = resultDate.ToShortDateString();
+                }
+                _rowData[Columns.ImportDate] = resultValue;
+            }
+        }
         public Guid AccountId
         {
             get
@@ -224,7 +242,8 @@ namespace MergeExcelDuplicates.ProxyObjects
             return (targetContact.ShortFirstName == this.ShortFirstName && targetContact.ShortSecondName == this.ShortSecondName)
                 || (targetContact.ShortSecondName == this.ShortSecondName && targetContact.FirstNameCompare(this.ShortFirstName))
                 || targetContact.IsEmpty()
-                || (targetContact.ShortSecondName == this.ShortSecondName && AccountProxy.PhoneCompare(this.ArchitectPhone, targetContact.ArchitectPhone));
+                || (targetContact.ShortSecondName == this.ShortSecondName && AccountProxy.PhoneCompare(this.ArchitectPhone, targetContact.ArchitectPhone))
+                || (FuzzyStringComparer.IsStringsFuzzyEquals(targetContact.ShortSecondName, this.ShortSecondName, 70));
 
         }
 

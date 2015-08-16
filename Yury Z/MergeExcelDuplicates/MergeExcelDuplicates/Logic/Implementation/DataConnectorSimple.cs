@@ -22,6 +22,9 @@ namespace MergeExcelDuplicates.Logic.Implementation
                         case "ID":
                             result[Columns.CustomId] = columnIndex;
                             break;
+                        case "Project Number":
+                            result[Columns.ProjectNo] = columnIndex;
+                            break;
                         case "Column1"://Id of information supplier
                             result[Columns.IdOfInformationSupplier] = columnIndex;
                             break;

@@ -1,4 +1,5 @@
-﻿using MergeExcelDuplicates.Logic.Implementation;
+﻿using System.Text.RegularExpressions;
+using MergeExcelDuplicates.Logic.Implementation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,28 @@ namespace MergeExcelDuplicates.ProxyObjects
             {
                 if (!_rowData.ContainsKey(iColumn))
                     _rowData[iColumn] = "";
+                if (iColumn == DataConnector.Columns.ArchitectPhone)
+                {
+                    _rowData[iColumn] = PhoneRectifier(_rowData[iColumn]);
+
+                }
             }
+        }
+        private string PhoneRectifier(string inValue)
+        {
+            var phoneCompare = new Regex(@"\d+");
+            var result = "";
+            var exisitingPhone = phoneCompare.Match(inValue).Value;
+            result = exisitingPhone;
+            if (inValue.StartsWith("0"))
+            {
+                result = "+44" + exisitingPhone.Remove(1, exisitingPhone.Length - 1);
+            }
+            if (inValue.StartsWith("+"))
+                result = "+" + result;
+            if (result.Length != 13)
+                result = "";
+            return result;
         }
         internal AccountProxy ToAccount()
         {
@@ -68,6 +90,8 @@ namespace MergeExcelDuplicates.ProxyObjects
                 ProjectContractType = _rowData[DataConnector.Columns.ProjectContractType],
                 Email = _rowData[DataConnector.Columns.ArchitectCompanyEmail],
                 Phone = _rowData[DataConnector.Columns.ArchitectWorkPhone],
+                FirstName = _rowData[DataConnector.Columns.ArchitectFirstName],
+                LastName = _rowData[DataConnector.Columns.ArchitectLastName],
                 ImportId = Guid.NewGuid()
             };
             return projectResult;
@@ -86,6 +110,7 @@ namespace MergeExcelDuplicates.ProxyObjects
                 ArchitectWebsite = _rowData[DataConnector.Columns.ArchitectWebsite],
                 ArchitectFax = _rowData[DataConnector.Columns.ArchitectFax],
                 ArchitectSex = _rowData[DataConnector.Columns.ArchitectSex],
+                ImportDate = _rowData[DataConnector.Columns.DateOfInfoReceipt],
                 ImportId = Guid.NewGuid()
             };
             return contactResult;
