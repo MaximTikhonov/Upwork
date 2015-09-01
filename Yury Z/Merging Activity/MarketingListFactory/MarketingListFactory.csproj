@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EPPlus">
+      <HintPath>..\..\..\..\..\CRM 2011 Software\EPPlus\EPPlus.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Crm.Sdk.Proxy">
       <HintPath>..\..\..\..\..\TFS-SourceControl\crm-sales\trunk\CRM50\Common\Crm2011\Microsoft.Crm.Sdk.Proxy.dll</HintPath>
     </Reference>
@@ -61,6 +64,28 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DataLogic\Comparison\FuzzyStringComparer.cs" />
+    <Compile Include="DataLogic\Comparison\ICompareEntity.cs" />
+    <Compile Include="DataLogic\Comparison\LevenshteinDistance.cs" />
+    <Compile Include="DataLogic\CrmConnector.cs" />
+    <Compile Include="DataLogic\Extensions.cs" />
+    <Compile Include="ProxyObjects\Common\IAccountProxy.cs" />
+    <Compile Include="ProxyObjects\Common\IContactProxy.cs" />
+    <Compile Include="ProxyObjects\Common\IProject.cs" />
+    <Compile Include="ProxyObjects\Crm\AccountCrmProxy.cs" />
+    <Compile Include="ProxyObjects\Crm\ContactCrmProxy.cs" />
+    <Compile Include="ProxyObjects\Crm\EntityCrmProxy.cs" />
+    <Compile Include="ProxyObjects\Crm\LeadCrmProxy.cs" />
+    <Compile Include="ProxyObjects\Excel\AccountExcelProxy.cs" />
+    <Compile Include="ProxyObjects\Excel\ContactExcelProxy.cs" />
+    <Compile Include="ProxyObjects\Excel\IEntityExcelProxy.cs" />
+    <Compile Include="ProxyObjects\Excel\InitialDataSheet.cs" />
+    <Compile Include="ProxyObjects\Excel\InitialRecordProxy.cs" />
+    <Compile Include="ProxyObjects\Excel\ProjectExcelProxy.cs" />
+    <Page Include="ImportWnd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -71,8 +96,14 @@
     </Compile>
     <Compile Include="ConditionsFactory.cs" />
     <Compile Include="CrmService.cs" />
-    <Compile Include="ExtensionFetch.cs" />
+    <Compile Include="DataLogic\DataConnector.cs" />
+    <Compile Include="DataLogic\DataConnectorExtraLeads.cs" />
+    <Compile Include="DataLogic\IDataConnector.cs" />
+    <Compile Include="EventNotificator.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="ImportWnd.xaml.cs">
+      <DependentUpon>ImportWnd.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LeadProxy.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -107,6 +138,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

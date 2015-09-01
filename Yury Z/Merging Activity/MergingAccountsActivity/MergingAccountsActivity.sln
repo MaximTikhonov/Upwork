@@ -11,6 +11,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketingListFactory", "..\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MergeExcelDuplicates", "..\..\MergeExcelDuplicates\MergeExcelDuplicates\MergeExcelDuplicates.csproj", "{BE90A727-18D0-4439-8BBA-B3DC2812214A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{BA655E80-1407-42A2-A11B-B5A60DFFE7FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactPlugins", "..\Plugins\ContactPlugins\ContactPlugins.csproj", "{E2B11C22-8B28-47E2-ADC4-B10B7035D893}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeadPlugins", "..\Plugins\LeadPlugins\LeadPlugins.csproj", "{99C8C4EA-D9F3-469B-83B7-05EE5CDB6260}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,8 +39,20 @@ Global
 		{BE90A727-18D0-4439-8BBA-B3DC2812214A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE90A727-18D0-4439-8BBA-B3DC2812214A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE90A727-18D0-4439-8BBA-B3DC2812214A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2B11C22-8B28-47E2-ADC4-B10B7035D893}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2B11C22-8B28-47E2-ADC4-B10B7035D893}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2B11C22-8B28-47E2-ADC4-B10B7035D893}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2B11C22-8B28-47E2-ADC4-B10B7035D893}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99C8C4EA-D9F3-469B-83B7-05EE5CDB6260}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99C8C4EA-D9F3-469B-83B7-05EE5CDB6260}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99C8C4EA-D9F3-469B-83B7-05EE5CDB6260}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99C8C4EA-D9F3-469B-83B7-05EE5CDB6260}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E2B11C22-8B28-47E2-ADC4-B10B7035D893} = {BA655E80-1407-42A2-A11B-B5A60DFFE7FD}
+		{99C8C4EA-D9F3-469B-83B7-05EE5CDB6260} = {BA655E80-1407-42A2-A11B-B5A60DFFE7FD}
 	EndGlobalSection
 EndGlobal
